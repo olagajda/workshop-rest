@@ -2,6 +2,54 @@
  * Created by aleksandragajda on 23.10.15.
  */
 
+
+var addNewBook = function() {
+
+    $("#new-book").submit(function(event) {
+
+
+        var book = {};
+        book.name =  $(this).parent().find("#name-input").val();
+        book.autor = $(this).parent().find("#autor-input").val();
+        book.description = $(this).parent().find("#desc-input").val();
+
+
+
+
+
+            //'"name": "' + $(this).parent().find("#name-input").val() + '", '+
+            //'"autor": "' + '$(this).parent().find("#autor-input").val() + '", '+
+            //'"description": ' + '$(this).parent().find("#desc-input").val() '", '+
+            //'}';
+
+        event.preventDefault();
+
+        console.log(JSON.stringify(book));
+
+        $.ajax({
+            url: "http://api.coderslab.pl/book",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(book)
+            ,
+            success: function (json) {
+                console.log("udało się");
+                loadAllBooks();
+
+            },
+            error: function (xhr, status, errorThrown) {
+                console.log(xhr, status, errorThrown);
+            },
+            complete: function (xhr, status) {
+            }
+
+        })
+
+    });
+
+};
+
+
 var addBookOnPage = function(bookData){
 
 
@@ -77,7 +125,12 @@ var loadAllBooks = function(){
 
 
 $(function(){
-loadAllBooks();
+
+
+
+    loadAllBooks();
+
+    addNewBook()
 
 
 
